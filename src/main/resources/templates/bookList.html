@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="common/header :: common-header"/>
+
+
+<body>
+
+<div th:replace="common/header :: navbar"/>
+
+<div class="container">
+    <table class="table table-bordered" id="bookListTable">
+        <thead>
+        <tr>
+            <th><input type="checkbox" th:id="selectAllBooks"></th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Category</th>
+            <th scope="col">List Price</th>
+            <th scope="col">Our Price</th>
+            <th scope="col">Active?</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr data-th-each="book : ${bookList}">
+            <td>
+                <input hidden="hidden" name="id" th:value="${book.id}"/>
+                <input type="checkbox" th:id="'selected'+${book.id}" class="checkboxBook">
+            </td>
+            <td><a th:href="@{/books/bookInfo?id=}+${book.id}"><span  th:text="${book.title}"></span></a></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.category}"></td>
+            <td th:text="${book.listPrice}"></td>
+            <td th:text="${book.ourPrice}"></td>
+            <td th:text="${book.active}"></td>
+            <td th:text="${book.inStockNumber}"></td>
+            <td>
+                <input hidden="hidden" name="id" th:value="${book.id}"/>
+                <button th:id="'oneBook-'+${book.id}" class="btn btn-danger btn-sm delete-book" type="submit" value="delete">Delete</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <button th:id="deleteSelected" class="btn btn-danger">Delete Selected</button>
+</div>
+
+
+<div th:replace="common/header :: body-bottom-scripts"/>
+<script>
+    $(document).ready( function () {
+        $('#bookListTable').DataTable();
+    } );
+</script>
+
+</body>
+</html>
